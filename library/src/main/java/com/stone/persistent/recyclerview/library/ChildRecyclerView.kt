@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import androidx.viewpager2.widget.ViewPager2
 
 /**
  * 内层的RecyclerView
@@ -40,12 +41,28 @@ class ChildRecyclerView @JvmOverloads constructor(
     }
 
     private fun findParentRecyclerView() {
+        var viewPager2: ViewPager2? = null
+        var lastTraverseView: View = this
+
         var parentView = this.parent as View
         while (parentView != null) {
-            if (parentView is ParentRecyclerView) {
+            val parentClassName = parentView::class.java.canonicalName
+            if ("androidx.viewpager2.widget.ViewPager2.RecyclerViewImpl" == parentClassName) {
+                // 此处将ChildRecyclerView保存到ViewPager2.currentItem的tag中
+                if (lastTraverseView != this) {
+                    lastTraverseView.setTag(R.id.tag_saved_child_recycler_view, this)
+                }
+            } else if (parentView is ViewPager2) {
+                // 碰到了ViewPager2，需要上报给ParentRecyclerView
+                viewPager2 = parentView
+            } else if (parentView is ParentRecyclerView) {
+                parentView.setInnerViewPager(viewPager2)
+                parentView.setChildPagerContainer(lastTraverseView)
                 this.parentRecyclerView = parentView
                 return
             }
+
+            lastTraverseView = parentView
             parentView = parentView.parent as View
         }
     }

@@ -7,8 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.stone.persistent.recyclerview.R
-import com.stone.persistent.recyclerview.library.ChildRecyclerView
-import com.stone.persistent.recyclerview.library.ChildViewPagerContainer
 import kotlinx.android.synthetic.main.item_main_feeds.view.*
 
 class MainListAdapter(context: AppCompatActivity) :
@@ -67,15 +65,6 @@ class MainListAdapter(context: AppCompatActivity) :
             feedsViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
             val feedsPagerAdapter = FeedsPagerAdapter(context)
             feedsViewPager.adapter = feedsPagerAdapter
-
-
-            val childPagerContainer = itemView as ChildViewPagerContainer
-            childPagerContainer.setChildProvider(object: ChildViewPagerContainer.IChildProvider {
-                override fun getCurrentChildRecyclerView(): ChildRecyclerView? {
-                    val currentItem = feedsViewPager.currentItem
-                    return feedsPagerAdapter.getInnerRecyclerView(currentItem)
-                }
-            })
         }
     }
 
