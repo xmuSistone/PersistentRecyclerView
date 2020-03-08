@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.viewpager2.widget.ViewPager2
 import com.stone.persistent.recyclerview.helper.CarouselHelper
 
 /**
@@ -15,16 +16,27 @@ class CarouselConstraintLayout @JvmOverloads constructor(
 
     private var carouselHelper: CarouselHelper? = null
 
-    override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         if (ev!!.action == MotionEvent.ACTION_DOWN) {
             carouselHelper?.stop()
         } else if (ev.action == MotionEvent.ACTION_UP || ev.action == MotionEvent.ACTION_CANCEL) {
             carouselHelper?.start()
         }
-        return super.onInterceptTouchEvent(ev)
+        return super.dispatchTouchEvent(ev)
     }
 
-    fun setCarouselHelper(carouselHelper: CarouselHelper) {
-        this.carouselHelper = carouselHelper
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        carouselHelper?.start()
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        carouselHelper?.stop()
+    }
+
+    fun startCarousel(viewPager: ViewPager2){
+        carouselHelper = CarouselHelper(viewPager)
+        carouselHelper?.start()
     }
 }

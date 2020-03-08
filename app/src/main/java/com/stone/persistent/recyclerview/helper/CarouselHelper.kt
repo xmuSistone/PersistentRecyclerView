@@ -48,5 +48,6 @@ class CarouselHelper(viewPager2: ViewPager2) {
 
     fun stop() {
         carouselThread?.interrupt()
+        carouselThread = null
     }
 }
