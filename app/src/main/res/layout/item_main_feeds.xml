@@ -14,6 +14,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:id="@+id/feeds_tab1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -22,8 +23,7 @@
             android:paddingBottom="13dp"
             android:text="精选"
             android:textColor="#f00"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textSize="18sp" />
 
         <View
             android:layout_width="1dp"
@@ -31,6 +31,7 @@
             android:background="#f0f0f0" />
 
         <TextView
+            android:id="@+id/feeds_tab2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -47,6 +48,7 @@
             android:background="#f0f0f0" />
 
         <TextView
+            android:id="@+id/feeds_tab3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -63,6 +65,7 @@
             android:background="#f0f0f0" />
 
         <TextView
+            android:id="@+id/feeds_tab4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -79,6 +82,7 @@
             android:background="#f0f0f0" />
 
         <TextView
+            android:id="@+id/feeds_tab5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
