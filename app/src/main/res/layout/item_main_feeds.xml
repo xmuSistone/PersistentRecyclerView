@@ -7,42 +7,87 @@
     <LinearLayout
         android:id="@+id/main_feeds_tablayout"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:background="#fff"
-        android:clickable="true"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Tab01"
-            android:textColor="#000"
+            android:paddingTop="13dp"
+            android:paddingBottom="13dp"
+            android:text="精选"
+            android:textColor="#f00"
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Tab02" />
+        <View
+            android:layout_width="1dp"
+            android:layout_height="13dp"
+            android:background="#f0f0f0" />
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Tab03" />
+            android:paddingTop="13dp"
+            android:paddingBottom="13dp"
+            android:text="年货节"
+            android:textColor="#333"
+            android:textSize="15sp" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="13dp"
+            android:background="#f0f0f0" />
 
         <TextView
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Tab04" />
+            android:paddingTop="13dp"
+            android:paddingBottom="13dp"
+            android:text="直播"
+            android:textColor="#333"
+            android:textSize="15sp" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="13dp"
+            android:background="#f0f0f0" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingTop="13dp"
+            android:paddingBottom="13dp"
+            android:text="进口"
+            android:textColor="#333"
+            android:textSize="15sp" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="13dp"
+            android:background="#f0f0f0" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingTop="13dp"
+            android:paddingBottom="13dp"
+            android:text="实惠"
+            android:textColor="#333"
+            android:textSize="15sp" />
 
     </LinearLayout>
 

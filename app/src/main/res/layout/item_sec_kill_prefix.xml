@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/sec_kill_ad1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@mipmap/sec_kill_img1"
+        app:layout_constraintDimensionRatio="1.25"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/sec_kill_ad2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/sec_kill_ad2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@mipmap/sec_kill_img2"
+        app:layout_constraintDimensionRatio="1.25"
+        app:layout_constraintLeft_toRightOf="@+id/sec_kill_ad1"
+        app:layout_constraintRight_toLeftOf="@+id/sec_kill_ad3"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/sec_kill_ad3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@mipmap/sec_kill_img3"
+        app:layout_constraintDimensionRatio="1.25"
+        app:layout_constraintLeft_toRightOf="@+id/sec_kill_ad2"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

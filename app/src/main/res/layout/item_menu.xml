@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp">
+
+    <ImageView
+        android:id="@+id/item_menu_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@mipmap/menu_icon01" />
+
+    <TextView
+        android:id="@+id/item_menu_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="京东超市"
+        android:textColor="#333"
+        android:textSize="11sp" />
+
+</LinearLayout>
