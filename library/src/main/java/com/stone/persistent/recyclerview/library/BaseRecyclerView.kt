@@ -21,6 +21,8 @@ open class BaseRecyclerView @JvmOverloads constructor(
 
     private var listScrollY: Int = 0;
 
+    private var scrollListener: ScrollListener? = null
+
     init {
         // 1. mViewFlinger对象获取
         val viewFlingField = RecyclerView::class.java.getDeclaredField("mViewFlinger")
@@ -63,6 +65,7 @@ open class BaseRecyclerView @JvmOverloads constructor(
      */
     override fun onScrolled(dx: Int, dy: Int) {
         this.listScrollY += dy
+        this.scrollListener?.onChanged(this.listScrollY)
     }
 
     /**
@@ -70,5 +73,16 @@ open class BaseRecyclerView @JvmOverloads constructor(
      */
     fun getListScrollY(): Int {
         return this.listScrollY
+    }
+
+    /**
+     * 监听scrollY
+     */
+    fun setScrollListener(scrollListener: ScrollListener) {
+        this.scrollListener = scrollListener
+    }
+
+    interface ScrollListener {
+        fun onChanged(scrollY: Int)
     }
 }

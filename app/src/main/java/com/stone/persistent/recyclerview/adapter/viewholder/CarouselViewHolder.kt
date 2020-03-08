@@ -4,7 +4,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.stone.persistent.recyclerview.adapter.CarouselAdapter
-import com.stone.persistent.recyclerview.utils.CarouselHelper
+import com.stone.persistent.recyclerview.helper.CarouselHelper
 import com.stone.persistent.recyclerview.widget.CarouselConstraintLayout
 import kotlinx.android.synthetic.main.item_main_carousel.view.*
 

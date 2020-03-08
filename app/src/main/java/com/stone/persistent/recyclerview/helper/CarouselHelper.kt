@@ -1,4 +1,4 @@
-package com.stone.persistent.recyclerview.utils
+package com.stone.persistent.recyclerview.helper
 
 import android.os.Handler
 import android.os.Looper

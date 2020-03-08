@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.stone.persistent.recyclerview.utils.CarouselHelper
+import com.stone.persistent.recyclerview.helper.CarouselHelper
 
 /**
  * ViewPager2是final，无法继承，需要在container中处理触摸事件
