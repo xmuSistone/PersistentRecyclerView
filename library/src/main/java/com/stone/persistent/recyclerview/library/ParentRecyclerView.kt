@@ -29,13 +29,13 @@ class ParentRecyclerView @JvmOverloads constructor(
 
     override fun onInterceptTouchEvent(e: MotionEvent?): Boolean {
         if (e!!.action == MotionEvent.ACTION_DOWN) {
+            val childRecyclerView = findCurrentChildRecyclerView()
+
             // 1. 是否禁止拦截
-            doNotInterceptTouchEvent =
-                childPagerContainer != null && childPagerContainer!!.top < e!!.getY()
+            doNotInterceptTouchEvent = doNotInterceptTouch(e.rawY, childRecyclerView)
 
             // 2. 停止Fling
             this.stopFling()
-            val childRecyclerView = findCurrentChildRecyclerView()
             childRecyclerView?.stopFling()
         }
 
@@ -46,8 +46,26 @@ class ParentRecyclerView @JvmOverloads constructor(
         }
     }
 
-    override fun onStartNestedScroll(child: View, target: View, axes: Int, type: Int): Boolean {
-        return true
+    /**
+     * 是否禁止拦截TouchEvent事件
+     */
+    private fun doNotInterceptTouch(rawY: Float, childRecyclerView: ChildRecyclerView?): Boolean {
+        if (null != childRecyclerView && childPagerContainer != null) {
+            val coorValue = IntArray(2)
+            childRecyclerView.getLocationOnScreen(coorValue)
+
+            val childRecyclerViewY = coorValue[1]
+            if (rawY > childRecyclerViewY) {
+                return true
+            }
+
+            if (childPagerContainer!!.top == 0) {
+                return true
+            }
+        }
+
+        // 默认不禁止
+        return false
     }
 
     override fun onNestedPreScroll(target: View, dx: Int, dy: Int, consumed: IntArray, type: Int) {
@@ -78,12 +96,15 @@ class ParentRecyclerView @JvmOverloads constructor(
         if (state == SCROLL_STATE_IDLE) {
             val velocityY = getVelocityY()
             if (velocityY > 0) {
+                // 滑动到最底部时，骤然停止，这时需要把速率传递给ChildRecyclerView
                 val childRecyclerView = findCurrentChildRecyclerView()
                 childRecyclerView?.fling(0, velocityY)
-            } else if (velocityY < 0) {
-                this.fling(0, velocityY)
             }
         }
+    }
+
+    override fun onStartNestedScroll(child: View, target: View, axes: Int, type: Int): Boolean {
+        return true
     }
 
     override fun onNestedScroll(

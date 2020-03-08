@@ -31,6 +31,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha01'
     implementation "androidx.constraintlayout:constraintlayout:2.0.0-beta4"
     implementation "androidx.viewpager2:viewpager2:1.0.0"
+    implementation 'com.rishabhharit.roundedimageview:RoundedImageView:0.8.4'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'

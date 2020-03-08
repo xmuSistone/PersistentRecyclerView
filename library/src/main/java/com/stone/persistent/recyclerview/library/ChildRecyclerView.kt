@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewConfiguration
 import androidx.viewpager2.widget.ViewPager2
 
 /**
@@ -14,6 +15,23 @@ class ChildRecyclerView @JvmOverloads constructor(
 ) : BaseRecyclerView(context, attrs, defStyleAttr) {
 
     private var parentRecyclerView: ParentRecyclerView? = null
+
+    private val mTouchSlop: Int
+    private var downX: Float = 0f
+    private var downY: Float = 0f
+
+    private var dragState: Int = DRAG_IDLE
+
+    companion object {
+        private const val DRAG_IDLE = 0
+        private const val DRAG_VERTICAL = 1
+        private const val DRAG_HORIZONTAL = 2
+    }
+
+    init {
+        val configuration = ViewConfiguration.get(context)
+        mTouchSlop = configuration.scaledTouchSlop
+    }
 
     override fun onScrollStateChanged(state: Int) {
         super.onScrollStateChanged(state)
@@ -28,11 +46,38 @@ class ChildRecyclerView @JvmOverloads constructor(
         }
     }
 
-    override fun onInterceptTouchEvent(e: MotionEvent?): Boolean {
-        if (e!!.action == MotionEvent.ACTION_DOWN) {
+    override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
+        if (ev.action == MotionEvent.ACTION_DOWN) {
+            // ACTION_DOWN 触摸按下，保存临时变量
+            dragState = DRAG_IDLE
+            downX = ev.rawX
+            downY = ev.rawY
             this.stopFling()
         }
-        return super.onInterceptTouchEvent(e)
+        return super.onInterceptTouchEvent(ev)
+    }
+
+    /**
+     * 这段逻辑主要是RecyclerView最底部，垂直上拉后居然还能左右滑动，不能忍
+     */
+    override fun onTouchEvent(ev: MotionEvent): Boolean {
+        if (ev.action == MotionEvent.ACTION_MOVE) {
+            // ACTION_MOVE 判定垂直还是水平滑动
+            if (dragState == DRAG_IDLE) {
+                val xDistance = Math.abs(ev.rawX - downX)
+                val yDistance = Math.abs(ev.rawY - downY)
+
+                if (xDistance > yDistance && xDistance > mTouchSlop) {
+                    // 水平滑动
+                    dragState = DRAG_HORIZONTAL
+                } else if (yDistance > xDistance && yDistance > mTouchSlop) {
+                    // 垂直滑动
+                    dragState = DRAG_VERTICAL
+                    parent.requestDisallowInterceptTouchEvent(true)
+                }
+            }
+        }
+        return super.onTouchEvent(ev)
     }
 
     override fun onAttachedToWindow() {

@@ -8,7 +8,8 @@
         android:id="@+id/main_feeds_tablayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="#f0f0f0"
+        android:background="#fff"
+        android:clickable="true"
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -49,8 +50,15 @@
         android:id="@+id/main_feeds_view_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#00f"
+        android:background="#f3f3f3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main_feeds_tablayout" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@drawable/top_shadow"
+        app:layout_constraintTop_toBottomOf="@+id/main_feeds_tablayout" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
