@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.NestedScrollingParent3
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 
 /**
@@ -18,7 +19,9 @@ class ParentRecyclerView @JvmOverloads constructor(
 
     private var childPagerContainer: View? = null
 
-    private var innerViewPager: ViewPager2? = null
+    private var innerViewPager: ViewPager? = null
+
+    private var innerViewPager2: ViewPager2? = null
 
     private var doNotInterceptTouchEvent: Boolean = false
 
@@ -143,10 +146,30 @@ class ParentRecyclerView @JvmOverloads constructor(
      */
     private fun findCurrentChildRecyclerView(): ChildRecyclerView? {
         if (innerViewPager != null) {
+            val currentItem = innerViewPager!!.currentItem
+            for (i in 0 until innerViewPager!!.childCount) {
+                val itemChildView = innerViewPager!!.getChildAt(i)
+                val layoutParams = itemChildView.layoutParams as ViewPager.LayoutParams
+                val positionField = layoutParams.javaClass.getDeclaredField("position")
+                positionField.isAccessible = true
+                val position = positionField.get(layoutParams) as Int
+
+                if (!layoutParams.isDecor && currentItem == position) {
+                    if (itemChildView is ChildRecyclerView) {
+                        return itemChildView
+                    } else {
+                        val tagView = itemChildView?.getTag(R.id.tag_saved_child_recycler_view)
+                        if (tagView is ChildRecyclerView) {
+                            return tagView
+                        }
+                    }
+                }
+            }
+        } else if (innerViewPager2 != null) {
             val layoutManagerFiled = ViewPager2::class.java.getDeclaredField("mLayoutManager")
             layoutManagerFiled.isAccessible = true
-            val pagerLayoutManager = layoutManagerFiled.get(innerViewPager) as LinearLayoutManager
-            var currentChild = pagerLayoutManager.findViewByPosition(innerViewPager!!.currentItem)
+            val pagerLayoutManager = layoutManagerFiled.get(innerViewPager2) as LinearLayoutManager
+            var currentChild = pagerLayoutManager.findViewByPosition(innerViewPager2!!.currentItem)
 
             if (currentChild is ChildRecyclerView) {
                 return currentChild
@@ -160,10 +183,17 @@ class ParentRecyclerView @JvmOverloads constructor(
         return null
     }
 
-    fun setInnerViewPager(viewPager2: ViewPager2?) {
-        this.innerViewPager = viewPager2
+    fun setInnerViewPager(viewPager: ViewPager?) {
+        this.innerViewPager = viewPager
     }
 
+    fun setInnerViewPager2(viewPager2: ViewPager2?) {
+        this.innerViewPager2 = viewPager2
+    }
+
+    /**
+     * 由ChildRecyclerView上报ViewPager(ViewPager2)的父容器，用做内联滑动逻辑判断，及Touch拦截等
+     */
     fun setChildPagerContainer(childPagerContainer: View) {
         this.childPagerContainer = childPagerContainer
     }

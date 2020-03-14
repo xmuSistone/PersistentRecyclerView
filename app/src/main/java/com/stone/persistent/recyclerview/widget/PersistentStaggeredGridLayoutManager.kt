@@ -3,8 +3,8 @@ package com.stone.persistent.recyclerview.widget
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 
-class PersistentStaggeredGridLayoutManager(spanCount: Int, orientation: Int) :
-    StaggeredGridLayoutManager(spanCount, orientation) {
+class PersistentStaggeredGridLayoutManager(spanCount: Int) :
+    StaggeredGridLayoutManager(spanCount, VERTICAL) {
 
     /**
      * ViewPager2左右切换时，会触发RecyclerView.onDetachedFromWindow，进而触发LayoutManager的这个方法，导致错乱
