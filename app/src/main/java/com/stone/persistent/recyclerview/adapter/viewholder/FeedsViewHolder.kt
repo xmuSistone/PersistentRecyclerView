@@ -20,8 +20,10 @@ class FeedsViewHolder(itemView: View, activity: AppCompatActivity) :
     private val tabList = ArrayList<TextView>()
     private val feedsViewPager = itemView.main_feeds_view_pager
 
-    private val COLOR_TAB_NORMAL = Color.parseColor("#333333")
-    private val COLOR_TAB_SELECTED = Color.parseColor("#ff0000")
+    companion object {
+        private val COLOR_TAB_NORMAL by lazy { Color.parseColor("#333333") }
+        private val COLOR_TAB_SELECTED by lazy { Color.parseColor("#ff0000") }
+    }
 
     init {
         feedsViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL

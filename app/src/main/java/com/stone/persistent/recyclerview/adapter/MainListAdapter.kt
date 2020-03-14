@@ -5,10 +5,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.stone.persistent.recyclerview.R
-import com.stone.persistent.recyclerview.adapter.viewholder.CarouselViewHolder
-import com.stone.persistent.recyclerview.adapter.viewholder.EmptyViewHolder
-import com.stone.persistent.recyclerview.adapter.viewholder.FeedsViewHolder
-import com.stone.persistent.recyclerview.adapter.viewholder.MenuViewHolder
+import com.stone.persistent.recyclerview.adapter.viewholder.*
 
 class MainListAdapter(context: AppCompatActivity) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -16,6 +13,10 @@ class MainListAdapter(context: AppCompatActivity) :
     private val context: AppCompatActivity = context
 
     private val inflater = LayoutInflater.from(context)
+
+    private var tabsLoaded = false
+
+    private var actionListener: IActionListener? = null
 
     companion object {
         // 轮播图
@@ -38,6 +39,9 @@ class MainListAdapter(context: AppCompatActivity) :
 
         // 商品流
         private const val VIEW_TYPE_FEEDS = 6
+
+        // 正在加载tabs
+        private const val VIEW_TYPE_LOADING_TABS = 7
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -48,7 +52,8 @@ class MainListAdapter(context: AppCompatActivity) :
             3 -> VIEW_TYPE_SEC_KILL_CONTENT
             4 -> VIEW_TYPE_TODAY_RECOMMEND
             5 -> VIEW_TYPE_NEW_YEAR_STREET
-            else -> VIEW_TYPE_FEEDS
+            6 -> if (tabsLoaded) VIEW_TYPE_FEEDS else VIEW_TYPE_LOADING_TABS
+            else -> -1
         }
         return super.getItemViewType(position)
     }
@@ -91,6 +96,11 @@ class MainListAdapter(context: AppCompatActivity) :
                 EmptyViewHolder(itemView)
             }
 
+            VIEW_TYPE_LOADING_TABS -> {
+                val itemView = inflater.inflate(R.layout.item_loading_footer, parent, false)
+                LoadingViewHolder(itemView)
+            }
+
             else -> {
                 // 商品流
                 val itemView = inflater.inflate(R.layout.item_main_feeds, parent, false)
@@ -104,6 +114,27 @@ class MainListAdapter(context: AppCompatActivity) :
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        // do nothing at the moment
+        if (holder is LoadingViewHolder) {
+            // 加载tabs
+            this.actionListener?.onLoadingTabs()
+        }
+    }
+
+    fun setActionListener(actionListener: IActionListener) {
+        this.actionListener = actionListener
+    }
+
+
+    /**
+     * tabs加载完成
+     */
+    fun onTabsLoaded() {
+        this.tabsLoaded = true
+        this.notifyItemChanged(7)
+    }
+
+
+    interface IActionListener {
+        fun onLoadingTabs()
     }
 }

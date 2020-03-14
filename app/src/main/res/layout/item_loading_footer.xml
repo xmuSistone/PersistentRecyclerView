@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="#b51a1c">
+
+    <com.stone.persistent.recyclerview.widget.ProgressImageView
+        android:layout_width="23dp"
+        android:layout_height="23dp"
+        android:layout_gravity="center" />
+
+</FrameLayout>
