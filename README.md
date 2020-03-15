@@ -5,7 +5,7 @@
 ### 实现效果
 点击可查看截屏视频：
 
-<img src="capturedImage.webp" width="460"/>
+<img src="capturedImage.jpg" width="460"/>
 
 ### 使用方法
 Adapter及ViewHolder跟官方Recyclerview一样，只是需要注意这2点：
