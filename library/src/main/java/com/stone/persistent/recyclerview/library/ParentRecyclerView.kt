@@ -28,7 +28,7 @@ class ParentRecyclerView @JvmOverloads constructor(
     /**
      * 顶部悬停的高度
      */
-    private var stickyHeight = 150
+    private var stickyHeight = 0
 
     init {
         this.overScrollMode = View.OVER_SCROLL_NEVER
