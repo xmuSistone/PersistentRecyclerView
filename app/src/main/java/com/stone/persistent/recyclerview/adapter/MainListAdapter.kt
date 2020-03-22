@@ -55,7 +55,6 @@ class MainListAdapter(context: AppCompatActivity) :
             6 -> if (tabsLoaded) VIEW_TYPE_FEEDS else VIEW_TYPE_LOADING_TABS
             else -> -1
         }
-        return super.getItemViewType(position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -117,6 +116,8 @@ class MainListAdapter(context: AppCompatActivity) :
         if (holder is LoadingViewHolder) {
             // 加载tabs
             this.actionListener?.onLoadingTabs()
+        } else if (holder is CarouselViewHolder) {
+            holder.invalidate()
         }
     }
 

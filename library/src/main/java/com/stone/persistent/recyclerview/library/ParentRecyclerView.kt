@@ -77,7 +77,7 @@ class ParentRecyclerView @JvmOverloads constructor(
     }
 
     override fun onNestedPreScroll(target: View, dx: Int, dy: Int, consumed: IntArray, type: Int) {
-        if (target != null && target is ChildRecyclerView) {
+        if (target is ChildRecyclerView) {
             // 下面这一坨代码的主要目的是计算consumeY
             var consumeY = dy
             if (childPagerContainer!!.top > stickyHeight) {

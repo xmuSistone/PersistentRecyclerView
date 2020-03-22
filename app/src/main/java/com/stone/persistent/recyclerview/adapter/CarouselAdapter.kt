@@ -20,10 +20,10 @@ class CarouselAdapter(context: Context) : Adapter<CarouselAdapter.CarouselViewHo
 
     override fun onBindViewHolder(holder: CarouselViewHolder, position: Int) {
         val imgRes = when {
-            position % 5 === 0 -> R.mipmap.carousel_1
-            position % 5 === 1 -> R.mipmap.carousel_2
-            position % 5 === 2 -> R.mipmap.carousel_3
-            position % 5 === 3 -> R.mipmap.carousel_4
+            position % 5 == 0 -> R.mipmap.carousel_1
+            position % 5 == 1 -> R.mipmap.carousel_2
+            position % 5 == 2 -> R.mipmap.carousel_3
+            position % 5 == 3 -> R.mipmap.carousel_4
             else -> R.mipmap.carousel_5
         }
         holder.itemView.carousel_img.setImageResource(imgRes)
