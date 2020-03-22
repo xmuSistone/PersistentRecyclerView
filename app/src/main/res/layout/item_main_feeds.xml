@@ -7,7 +7,7 @@
     <LinearLayout
         android:id="@+id/main_feeds_tablayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:background="#fff"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -16,11 +16,9 @@
         <TextView
             android:id="@+id/feeds_tab1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:paddingTop="13dp"
-            android:paddingBottom="13dp"
             android:text="精选"
             android:textColor="#f00"
             android:textSize="18sp" />
@@ -33,11 +31,9 @@
         <TextView
             android:id="@+id/feeds_tab2"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:paddingTop="13dp"
-            android:paddingBottom="13dp"
             android:text="年货节"
             android:textColor="#333"
             android:textSize="15sp" />
@@ -50,11 +46,9 @@
         <TextView
             android:id="@+id/feeds_tab3"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:paddingTop="13dp"
-            android:paddingBottom="13dp"
             android:text="直播"
             android:textColor="#333"
             android:textSize="15sp" />
@@ -67,11 +61,9 @@
         <TextView
             android:id="@+id/feeds_tab4"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:paddingTop="13dp"
-            android:paddingBottom="13dp"
             android:text="进口"
             android:textColor="#333"
             android:textSize="15sp" />
@@ -84,11 +76,9 @@
         <TextView
             android:id="@+id/feeds_tab5"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:paddingTop="13dp"
-            android:paddingBottom="13dp"
             android:text="实惠"
             android:textColor="#333"
             android:textSize="15sp" />

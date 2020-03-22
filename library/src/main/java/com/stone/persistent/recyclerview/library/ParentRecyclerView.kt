@@ -25,6 +25,11 @@ class ParentRecyclerView @JvmOverloads constructor(
 
     private var doNotInterceptTouchEvent: Boolean = false
 
+    /**
+     * 顶部悬停的高度
+     */
+    private var stickyHeight = 150
+
     init {
         this.overScrollMode = View.OVER_SCROLL_NEVER
         this.descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
@@ -62,7 +67,7 @@ class ParentRecyclerView @JvmOverloads constructor(
                 return true
             }
 
-            if (childPagerContainer!!.top == 0) {
+            if (childPagerContainer!!.top == stickyHeight) {
                 return true
             }
         }
@@ -75,11 +80,11 @@ class ParentRecyclerView @JvmOverloads constructor(
         if (target != null && target is ChildRecyclerView) {
             // 下面这一坨代码的主要目的是计算consumeY
             var consumeY = dy
-            if (childPagerContainer!!.top > 0) {
+            if (childPagerContainer!!.top > stickyHeight) {
                 if (childPagerContainer!!.top - dy < 0) {
                     consumeY = childPagerContainer!!.top
                 }
-            } else if (childPagerContainer!!.top == 0) {
+            } else if (childPagerContainer!!.top == stickyHeight) {
                 val childScrollY = target.getListScrollY()
                 consumeY = if (-dy < childScrollY) {
                     0
@@ -89,7 +94,7 @@ class ParentRecyclerView @JvmOverloads constructor(
             }
 
             if (consumeY != 0) {
-                consumed.set(1, consumeY)
+                consumed[1] = consumeY
                 this.scrollBy(0, dy)
             }
         }
@@ -196,5 +201,33 @@ class ParentRecyclerView @JvmOverloads constructor(
      */
     fun setChildPagerContainer(childPagerContainer: View) {
         this.childPagerContainer = childPagerContainer
+        this.adjustChildPagerContainerHeight()
+    }
+
+    /**
+     * Activity调用方法
+     */
+    fun setStickyHeight(stickyHeight: Int) {
+        val scrollOffset = this.stickyHeight - stickyHeight
+        this.stickyHeight = stickyHeight
+        adjustChildPagerContainerHeight()
+
+        this.post{
+            this.scrollBy(0, scrollOffset)
+        }
+    }
+
+    /**
+     * 调整Child容器的高度
+     */
+    private fun adjustChildPagerContainerHeight() {
+        if (null != childPagerContainer) {
+            val layoutParams = childPagerContainer!!.layoutParams
+            val newHeight = this.height - stickyHeight
+            if (newHeight != layoutParams.height) {
+                layoutParams.height = newHeight
+                childPagerContainer!!.layoutParams = layoutParams
+            }
+        }
     }
 }

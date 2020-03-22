@@ -153,4 +153,31 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <!--5. 广告悬浮位-->
+
+    <FrameLayout
+        android:id="@+id/home_float_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:clickable="true"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@+id/main_refresh_layout">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#9fff0000"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ad_sticky" />
+
+        <ImageView
+            android:id="@+id/home_float_close_btn"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="right|center_vertical"
+            android:padding="8dp"
+            android:src="@mipmap/close" />
+
+    </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -91,7 +91,7 @@ class MainListAdapter(context: AppCompatActivity) :
             }
 
             VIEW_TYPE_NEW_YEAR_STREET -> {
-                // 今日推荐
+                // 新年大街
                 val itemView = inflater.inflate(R.layout.item_new_year_street, parent, false)
                 EmptyViewHolder(itemView)
             }

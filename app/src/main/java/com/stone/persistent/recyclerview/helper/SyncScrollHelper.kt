@@ -1,5 +1,6 @@
 package com.stone.persistent.recyclerview.helper
 
+import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.api.RefreshHeader
@@ -15,13 +16,10 @@ import kotlinx.android.synthetic.main.activity_main.*
  */
 class SyncScrollHelper(mainActivity: MainActivity) {
 
-    private val STATUS_BAR_HEIGHT = Utils.getStatusBarHeight(mainActivity)
-    private val TOOLBAR_HEIGHT = Utils.dp2px(mainActivity, 50f)
-    private var SCREEN_WIDTH = Utils.getScreenWidth(mainActivity)
-    private var SEARCH_BAR_HEIGHT = Utils.dp2px(mainActivity, 46f)
-
-    private val BACK_DIMENSION_RATIO1 = 1.8125f
-    private val BACK_DIMENSION_RATIO2 = 0.992647f
+    private val statusBarHeight = Utils.getStatusBarHeight(mainActivity)
+    private val toolbarHeight = Utils.dp2px(mainActivity, 50f)
+    private var screenHeight = Utils.getScreenWidth(mainActivity)
+    private var searchBarHeight = Utils.dp2px(mainActivity, 46f)
 
     private val activity = mainActivity
     private val toolBarLayout = mainActivity.main_toolbar
@@ -30,20 +28,41 @@ class SyncScrollHelper(mainActivity: MainActivity) {
     private val backIv2 = mainActivity.main_back_img2
     private val logoImageView = mainActivity.main_top_logo
 
+    private val floatVisibleThreshold = Utils.dp2px(mainActivity, 300f)
+    private val floatAdLayout = mainActivity.home_float_layout
+    private var floatAdClosed = false
+
+    companion object {
+        private const val BACK_DIMENSION_RATIO1 = 1.8125f
+        private const val BACK_DIMENSION_RATIO2 = 0.992647f
+    }
+
+    init {
+        val recyclerView = mainActivity.main_recycler_view
+        val stickyHeight = Utils.dp2px(mainActivity, 50f).toInt();
+        recyclerView.setStickyHeight(stickyHeight)
+
+        mainActivity.home_float_close_btn.setOnClickListener {
+            floatAdClosed = true
+            floatAdLayout.visibility = View.GONE
+            recyclerView.setStickyHeight(0)
+        }
+    }
+
     fun initLayout() {
         val toolbarParams = toolBarLayout.layoutParams as ConstraintLayout.LayoutParams
-        toolbarParams.setMargins(0, STATUS_BAR_HEIGHT, 0, 0)
+        toolbarParams.setMargins(0, statusBarHeight, 0, 0)
         toolBarLayout.layoutParams = toolbarParams
 
-        val backImgHeight1 = SCREEN_WIDTH / BACK_DIMENSION_RATIO1
-        val translationY1 = backImgHeight1 - STATUS_BAR_HEIGHT - TOOLBAR_HEIGHT - SEARCH_BAR_HEIGHT
+        val backImgHeight1 = screenHeight / BACK_DIMENSION_RATIO1
+        val translationY1 = backImgHeight1 - statusBarHeight - toolbarHeight - searchBarHeight
         backIv1.translationY = -translationY1
 
-        val backImgHeight2 = SCREEN_WIDTH / BACK_DIMENSION_RATIO2
+        val backImgHeight2 = screenHeight / BACK_DIMENSION_RATIO2
         val translationY2 = backImgHeight2 - backImgHeight1
         backIv2.translationY = -translationY2
 
-        searchBarLayout.translationY = STATUS_BAR_HEIGHT + TOOLBAR_HEIGHT
+        searchBarLayout.translationY = statusBarHeight + toolbarHeight
     }
 
     /**
@@ -52,8 +71,8 @@ class SyncScrollHelper(mainActivity: MainActivity) {
     fun syncRecyclerViewScroll(recyclerView: ParentRecyclerView) {
         recyclerView.setScrollListener(object : BaseRecyclerView.ScrollListener {
             override fun onChanged(scrollY: Int) {
-                val minTranslationY = STATUS_BAR_HEIGHT + Utils.dp2px(activity, 9f)
-                val maxTranslationY = STATUS_BAR_HEIGHT + TOOLBAR_HEIGHT
+                val minTranslationY = statusBarHeight + Utils.dp2px(activity, 9f)
+                val maxTranslationY = statusBarHeight + toolbarHeight
                 val targetTranslationY = maxTranslationY - scrollY * 0.7f
 
                 // 1. logo的alpha处理
@@ -79,6 +98,14 @@ class SyncScrollHelper(mainActivity: MainActivity) {
                 val layoutParams = searchBarLayout.layoutParams as ConstraintLayout.LayoutParams
                 layoutParams.setMargins(0, 0, (maxMarginRight * progress).toInt(), 0)
                 searchBarLayout.layoutParams = layoutParams
+
+                // 4. 广告悬浮位
+                if (!floatAdClosed) {
+                    floatAdLayout.visibility = when {
+                        scrollY > floatVisibleThreshold -> View.VISIBLE
+                        else -> View.GONE
+                    }
+                }
             }
         })
     }
@@ -97,10 +124,10 @@ class SyncScrollHelper(mainActivity: MainActivity) {
                 maxDragHeight: Int
             ) {
                 // 监听refreshLayout位置变动
-                val backImgHeight1 = SCREEN_WIDTH / BACK_DIMENSION_RATIO1
-                val backImgHeight2 = SCREEN_WIDTH / BACK_DIMENSION_RATIO2
+                val backImgHeight1 = screenHeight / BACK_DIMENSION_RATIO1
+                val backImgHeight2 = screenHeight / BACK_DIMENSION_RATIO2
                 val maxTranslationY =
-                    backImgHeight1 - STATUS_BAR_HEIGHT - TOOLBAR_HEIGHT - SEARCH_BAR_HEIGHT
+                    backImgHeight1 - statusBarHeight - toolbarHeight - searchBarHeight
 
                 if (offset > maxTranslationY) {
                     val outOfOffset = offset - maxTranslationY
