@@ -32,7 +32,7 @@ class GridItemDecoration(divider: Float) : RecyclerView.ItemDecoration() {
 
         outRect.bottom = divider
         outRect.top = if (layoutParams.viewAdapterPosition < 2) {
-            divider / 2
+            divider
         } else {
             0
         }
