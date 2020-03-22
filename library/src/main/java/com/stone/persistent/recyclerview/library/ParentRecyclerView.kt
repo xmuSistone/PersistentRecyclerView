@@ -82,7 +82,7 @@ class ParentRecyclerView @JvmOverloads constructor(
             var consumeY = dy
             if (childPagerContainer!!.top > stickyHeight) {
                 if (childPagerContainer!!.top - dy < stickyHeight) {
-                    consumeY = childPagerContainer!!.top
+                    consumeY = childPagerContainer!!.top - stickyHeight
                 }
             } else if (childPagerContainer!!.top == stickyHeight) {
                 val childScrollY = target.getListScrollY()
@@ -210,7 +210,7 @@ class ParentRecyclerView @JvmOverloads constructor(
     fun setStickyHeight(stickyHeight: Int) {
         val scrollOffset = this.stickyHeight - stickyHeight
         this.stickyHeight = stickyHeight
-        adjustChildPagerContainerHeight()
+        this.adjustChildPagerContainerHeight()
 
         this.post{
             this.scrollBy(0, scrollOffset)

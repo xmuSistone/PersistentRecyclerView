@@ -15,6 +15,7 @@ class FeedsPagerAdapter(fragmentActivity: FragmentActivity) :
         fragmentList.add(FeedsFragment())
         fragmentList.add(FeedsFragment())
         fragmentList.add(FeedsFragment())
+        fragmentList.add(FeedsFragment())
     }
 
     override fun createFragment(position: Int): Fragment {

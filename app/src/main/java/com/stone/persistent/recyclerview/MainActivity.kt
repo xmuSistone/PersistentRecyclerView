@@ -12,9 +12,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private var handler: Handler? = null
-
     private var listAdapter: MainListAdapter? = null
+    private var uiHandler: Handler? = null
 
     companion object {
         private const val MSG_TYPE_REFRESH_FINISHED = 0
@@ -39,8 +38,8 @@ class MainActivity : AppCompatActivity() {
         syncScrollHelper.syncRecyclerViewScroll(main_recycler_view)
         syncScrollHelper.syncRefreshPullDown(main_refresh_layout)
 
-        // 4. 下拉刷新处理
-        handler = object : Handler() {
+        // 4. 下拉刷新处理 及加载tabs
+        uiHandler = object : Handler() {
             override fun handleMessage(msg: Message) {
                 if (msg.what == MSG_TYPE_REFRESH_FINISHED) {
                     // 下拉刷新完成
@@ -52,8 +51,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
         main_refresh_layout.setOnRefreshListener {
-            // 500ms后，刷新成功
-            handler?.sendEmptyMessageDelayed(MSG_TYPE_REFRESH_FINISHED, 500L)
+            // 100ms后，刷新成功
+            uiHandler?.sendEmptyMessageDelayed(MSG_TYPE_REFRESH_FINISHED, 500L)
         }
     }
 
@@ -64,8 +63,8 @@ class MainActivity : AppCompatActivity() {
         listAdapter = MainListAdapter(this)
         listAdapter!!.setActionListener(object : MainListAdapter.IActionListener {
             override fun onLoadingTabs() {
-                // 500ms后，加载tabs成功
-                handler?.sendEmptyMessageDelayed(MSG_TYPE_TABS_LOADED, 500L)
+                // 1500ms后，加载tabs成功
+                uiHandler?.sendEmptyMessageDelayed(MSG_TYPE_TABS_LOADED, 1500L)
             }
         })
     }

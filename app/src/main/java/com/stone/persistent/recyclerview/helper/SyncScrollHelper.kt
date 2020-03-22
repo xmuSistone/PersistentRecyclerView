@@ -39,7 +39,7 @@ class SyncScrollHelper(mainActivity: MainActivity) {
 
     init {
         val recyclerView = mainActivity.main_recycler_view
-        val stickyHeight = Utils.dp2px(mainActivity, 50f).toInt();
+        val stickyHeight = Utils.dp2px(mainActivity, 50f).toInt()
         recyclerView.setStickyHeight(stickyHeight)
 
         mainActivity.home_float_close_btn.setOnClickListener {

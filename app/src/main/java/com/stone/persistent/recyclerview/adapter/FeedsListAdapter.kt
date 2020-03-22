@@ -42,6 +42,7 @@ class FeedsListAdapter(context: FragmentActivity) :
             val itemData = dataList.get(position % 6)
             itemView.goods_title_tv.text = itemData.goodName
             itemView.goods_imageview.setImageResource(itemData.imagRes)
+            itemView.goods_price_tv.text = itemData.price
 
             val imageLp = itemView.goods_imageview.layoutParams as ConstraintLayout.LayoutParams
             imageLp.dimensionRatio = itemData.dimensionRatio.toString()

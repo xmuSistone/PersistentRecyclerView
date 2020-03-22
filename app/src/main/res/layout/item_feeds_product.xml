@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="5dp"
     android:layout_marginBottom="5dp"
+    android:paddingBottom="8dp"
     android:background="@drawable/product_background_corner"
     android:orientation="vertical">
 
@@ -35,15 +36,41 @@
 
     <TextView
         android:id="@+id/goods_price_tv"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
-        android:paddingBottom="8dp"
-        android:text="￥110"
+        android:text="110"
         android:textColor="#f00"
         android:textSize="15sp"
         android:textStyle="bold"
+        app:layout_constraintLeft_toRightOf="@+id/goods_price_currency"
+        app:layout_constraintRight_toLeftOf="@+id/goods_similar_btn"
         app:layout_constraintTop_toBottomOf="@+id/goods_title_tv" />
+
+    <TextView
+        android:id="@+id/goods_price_currency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="1dp"
+        android:text="￥"
+        android:textColor="#f00"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/goods_price_tv"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/goods_similar_btn"
+        android:layout_width="38dp"
+        android:layout_height="18dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/border_gray_product"
+        android:gravity="center"
+        android:text="看相似"
+        android:textSize="9sp"
+        app:layout_constraintBottom_toBottomOf="@id/goods_price_tv"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/goods_price_tv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
