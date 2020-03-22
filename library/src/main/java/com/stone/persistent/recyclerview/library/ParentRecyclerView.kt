@@ -81,7 +81,7 @@ class ParentRecyclerView @JvmOverloads constructor(
             // 下面这一坨代码的主要目的是计算consumeY
             var consumeY = dy
             if (childPagerContainer!!.top > stickyHeight) {
-                if (childPagerContainer!!.top - dy < 0) {
+                if (childPagerContainer!!.top - dy < stickyHeight) {
                     consumeY = childPagerContainer!!.top
                 }
             } else if (childPagerContainer!!.top == stickyHeight) {
@@ -95,7 +95,7 @@ class ParentRecyclerView @JvmOverloads constructor(
 
             if (consumeY != 0) {
                 consumed[1] = consumeY
-                this.scrollBy(0, dy)
+                this.scrollBy(0, consumeY)
             }
         }
     }
