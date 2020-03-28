@@ -41,7 +41,7 @@ class ChildRecyclerView @JvmOverloads constructor(
         if (state == SCROLL_STATE_IDLE) {
             // 这里是考虑到当整个childRecyclerView被detach之后，及时上报parentRecyclerView
             val velocityY = getVelocityY()
-            if (velocityY < 0 && getListScrollY() == 0) {
+            if (velocityY < 0 && computeVerticalScrollOffset() == 0) {
                 parentRecyclerView?.fling(0, velocityY)
             }
         }

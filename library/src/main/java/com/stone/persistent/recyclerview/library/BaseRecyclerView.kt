@@ -19,10 +19,6 @@ open class BaseRecyclerView @JvmOverloads constructor(
 
     private val velocityYField: Field;
 
-    private var listScrollY: Int = 0;
-
-    private var scrollListener: ScrollListener? = null
-
     init {
         // 1. mViewFlinger对象获取
         val viewFlingField = RecyclerView::class.java.getDeclaredField("mViewFlinger")
@@ -58,31 +54,5 @@ open class BaseRecyclerView @JvmOverloads constructor(
     fun stopFling() {
         this.overScroller.forceFinished(true)
         velocityYField.set(scrollerYObj, 0)
-    }
-
-    /**
-     * 复写系统方法，保存垂直滑动距离
-     */
-    override fun onScrolled(dx: Int, dy: Int) {
-        this.listScrollY += dy
-        this.scrollListener?.onChanged(this.listScrollY)
-    }
-
-    /**
-     * 获取当前的scrollY
-     */
-    fun getListScrollY(): Int {
-        return this.listScrollY
-    }
-
-    /**
-     * 监听scrollY
-     */
-    fun setScrollListener(scrollListener: ScrollListener) {
-        this.scrollListener = scrollListener
-    }
-
-    interface ScrollListener {
-        fun onChanged(scrollY: Int)
     }
 }

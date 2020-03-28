@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         listAdapter!!.setActionListener(object : MainListAdapter.IActionListener {
             override fun onLoadingTabs() {
                 // 1500ms后，加载tabs成功
-                uiHandler?.sendEmptyMessageDelayed(MSG_TYPE_TABS_LOADED, 1500L)
+                uiHandler?.sendEmptyMessageDelayed(MSG_TYPE_TABS_LOADED, 800L)
             }
         })
     }

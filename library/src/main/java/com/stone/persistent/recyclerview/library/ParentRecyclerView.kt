@@ -85,7 +85,7 @@ class ParentRecyclerView @JvmOverloads constructor(
                     consumeY = childPagerContainer!!.top - stickyHeight
                 }
             } else if (childPagerContainer!!.top == stickyHeight) {
-                val childScrollY = target.getListScrollY()
+                val childScrollY = target.computeVerticalScrollOffset()
                 consumeY = if (-dy < childScrollY) {
                     0
                 } else {
@@ -200,8 +200,12 @@ class ParentRecyclerView @JvmOverloads constructor(
      * 由ChildRecyclerView上报ViewPager(ViewPager2)的父容器，用做内联滑动逻辑判断，及Touch拦截等
      */
     fun setChildPagerContainer(childPagerContainer: View) {
-        this.childPagerContainer = childPagerContainer
-        this.adjustChildPagerContainerHeight()
+        if (this.childPagerContainer != childPagerContainer) {
+            this.childPagerContainer = childPagerContainer
+            this.post {
+                adjustChildPagerContainerHeight()
+            }
+        }
     }
 
     /**
@@ -212,7 +216,7 @@ class ParentRecyclerView @JvmOverloads constructor(
         this.stickyHeight = stickyHeight
         this.adjustChildPagerContainerHeight()
 
-        this.post{
+        this.post {
             this.scrollBy(0, scrollOffset)
         }
     }

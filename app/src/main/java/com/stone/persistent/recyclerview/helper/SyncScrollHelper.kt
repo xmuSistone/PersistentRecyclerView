@@ -2,11 +2,12 @@ package com.stone.persistent.recyclerview.helper
 
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import com.stone.persistent.recyclerview.MainActivity
-import com.stone.persistent.recyclerview.library.BaseRecyclerView
 import com.stone.persistent.recyclerview.library.ParentRecyclerView
 import com.stone.persistent.recyclerview.utils.Utils
 import kotlinx.android.synthetic.main.activity_main.*
@@ -28,7 +29,7 @@ class SyncScrollHelper(mainActivity: MainActivity) {
     private val backIv2 = mainActivity.main_back_img2
     private val logoImageView = mainActivity.main_top_logo
 
-    private val floatVisibleThreshold = Utils.dp2px(mainActivity, 300f)
+    private val floatVisibleThreshold = Utils.dp2px(mainActivity, 500f)
     private val floatAdLayout = mainActivity.home_float_layout
     private var floatAdClosed = false
 
@@ -69,8 +70,9 @@ class SyncScrollHelper(mainActivity: MainActivity) {
      * RecyclerView滑动时，动态更新logoImageView和searchBar
      */
     fun syncRecyclerViewScroll(recyclerView: ParentRecyclerView) {
-        recyclerView.setScrollListener(object : BaseRecyclerView.ScrollListener {
-            override fun onChanged(scrollY: Int) {
+        recyclerView.addOnScrollListener(object : OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                val scrollY = recyclerView.computeVerticalScrollOffset()
                 val minTranslationY = statusBarHeight + Utils.dp2px(activity, 9f)
                 val maxTranslationY = statusBarHeight + toolbarHeight
                 val targetTranslationY = maxTranslationY - scrollY * 0.7f
