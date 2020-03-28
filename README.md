@@ -3,9 +3,11 @@
 仿京东首页，整体是个长列表(ParentRecyclerView)，底部的商品列表部分(ChildRecyclerView)可以左右滑动。
 
 ## 实现效果
-点击可查看截屏视频：
+点击可查看[截屏视频](http://sistone.top/capture/video.html?content=PersistentRecyclerView)：
 
-<img src="capturedImage.jpg" width="460"/>
+<a href="http://sistone.top/capture/video.html?content=PersistentRecyclerView">
+    <img src="capturedImage.jpg" width="460"/>
+</a>
 
 ## 使用方法
 Adapter及ViewHolder跟官方Recyclerview一样，只是需要注意这2点：
