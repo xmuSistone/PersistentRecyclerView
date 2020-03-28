@@ -31,4 +31,4 @@ Adapter及ViewHolder跟官方Recyclerview一样，只是需要注意这2点：
 对于长列表内嵌ViewPager以及ChildRecyclerView，官方控件中最接近这种效果的是CoordinatorLayout。所以，CoordinatorLayout改造之后，也能实现这样的效果，感兴趣的同学可去瞅瞅：[传送门](https://github.com/xmuSistone/PersistentCoordinatorLayout)
 
 ## Demo下载
-[点击下载](https://github.com/xmuSistone/PersistentRecyclerView/blob/master/app-release.apk?raw=true)
+[点击下载](https://github.com/xmuSistone/PersistentRecyclerView/blob/master/PersistentRecyclerView.apk?raw=true)
