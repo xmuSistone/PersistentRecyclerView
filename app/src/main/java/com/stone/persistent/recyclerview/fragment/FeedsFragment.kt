@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.stone.persistent.recyclerview.R
 import com.stone.persistent.recyclerview.adapter.FeedsListAdapter
+import com.stone.persistent.recyclerview.extensions.dp2px
 import com.stone.persistent.recyclerview.library.ChildRecyclerView
-import com.stone.persistent.recyclerview.utils.Utils
 import com.stone.persistent.recyclerview.widget.GridItemDecoration
 import com.stone.persistent.recyclerview.widget.PersistentStaggeredGridLayoutManager
 
@@ -26,7 +26,7 @@ class FeedsFragment : Fragment() {
 
         childRecyclerView = rootView as ChildRecyclerView
         childRecyclerView!!.layoutManager = layoutManager
-        childRecyclerView!!.addItemDecoration(GridItemDecoration(Utils.dp2px(activity!!, 8f)))
+        childRecyclerView!!.addItemDecoration(GridItemDecoration(activity!!.dp2px(8f)))
         childRecyclerView!!.adapter = FeedsListAdapter(activity!!)
         return rootView
     }

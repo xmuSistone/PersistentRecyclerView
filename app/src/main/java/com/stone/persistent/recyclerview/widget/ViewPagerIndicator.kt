@@ -8,8 +8,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2
 import com.stone.persistent.recyclerview.R
-import com.stone.persistent.recyclerview.utils.Utils
-
+import com.stone.persistent.recyclerview.extensions.dp2px
 
 /**
  * ViewPager2的指示器
@@ -32,13 +31,13 @@ class ViewPagerIndicator @JvmOverloads constructor(
 
     init {
         paint.style = Paint.Style.FILL
-        largerWidth = Utils.dp2px(context, 12f)
-        smallerWidth = Utils.dp2px(context, 7f)
-        rectHeight = Utils.dp2px(context, 2f)
-        interval = Utils.dp2px(context, 4f)
+        largerWidth = context.dp2px(12f)
+        smallerWidth = context.dp2px(7f)
+        rectHeight = context.dp2px(2f)
+        interval = context.dp2px(4f)
 
-
-        val attr = context.getTheme().obtainStyledAttributes(attrs, R.styleable.indicator, defStyleAttr, 0)
+        val attr =
+            context.getTheme().obtainStyledAttributes(attrs, R.styleable.indicator, defStyleAttr, 0)
         normalColor = attr.getColor(R.styleable.indicator_normalColor, normalColor)
         selectedColor = attr.getColor(R.styleable.indicator_selectedColor, selectedColor)
         attr.recycle()

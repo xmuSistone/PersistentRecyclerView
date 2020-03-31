@@ -5,7 +5,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.widget.ImageView
-import com.stone.persistent.recyclerview.utils.Utils
+import com.stone.persistent.recyclerview.extensions.dp2px
 
 class ProgressImageView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -14,7 +14,7 @@ class ProgressImageView @JvmOverloads constructor(
     var drawable = CircularProgressDrawable(context)
 
     init {
-        drawable.strokeWidth = Utils.dp2px(context, 2f)
+        drawable.strokeWidth = context.dp2px(2f)
         drawable.strokeCap = Paint.Cap.ROUND
         drawable.arrowEnabled = true
         drawable.setColorSchemeColors(Color.WHITE)

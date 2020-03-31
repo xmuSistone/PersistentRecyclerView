@@ -8,8 +8,10 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener
 import com.stone.persistent.recyclerview.MainActivity
+import com.stone.persistent.recyclerview.extensions.dp2px
+import com.stone.persistent.recyclerview.extensions.getScreenWidth
+import com.stone.persistent.recyclerview.extensions.getStatusBarHeight
 import com.stone.persistent.recyclerview.library.ParentRecyclerView
-import com.stone.persistent.recyclerview.utils.Utils
 import kotlinx.android.synthetic.main.activity_main.*
 
 /**
@@ -17,10 +19,10 @@ import kotlinx.android.synthetic.main.activity_main.*
  */
 class SyncScrollHelper(mainActivity: MainActivity) {
 
-    private val statusBarHeight = Utils.getStatusBarHeight(mainActivity)
-    private val toolbarHeight = Utils.dp2px(mainActivity, 50f)
-    private var screenHeight = Utils.getScreenWidth(mainActivity)
-    private var searchBarHeight = Utils.dp2px(mainActivity, 46f)
+    private val statusBarHeight = mainActivity.getStatusBarHeight()
+    private val toolbarHeight = mainActivity.dp2px(50f)
+    private var screenHeight = mainActivity.getScreenWidth()
+    private var searchBarHeight = mainActivity.dp2px(46f)
 
     private val activity = mainActivity
     private val toolBarLayout = mainActivity.main_toolbar
@@ -29,7 +31,7 @@ class SyncScrollHelper(mainActivity: MainActivity) {
     private val backIv2 = mainActivity.main_back_img2
     private val logoImageView = mainActivity.main_top_logo
 
-    private val floatVisibleThreshold = Utils.dp2px(mainActivity, 500f)
+    private val floatVisibleThreshold = mainActivity.dp2px(500f)
     private val floatAdLayout = mainActivity.home_float_layout
     private var floatAdClosed = false
 
@@ -40,7 +42,7 @@ class SyncScrollHelper(mainActivity: MainActivity) {
 
     init {
         val recyclerView = mainActivity.main_recycler_view
-        val stickyHeight = Utils.dp2px(mainActivity, 50f).toInt()
+        val stickyHeight = mainActivity.dp2px(50f).toInt()
         recyclerView.setStickyHeight(stickyHeight)
 
         mainActivity.home_float_close_btn.setOnClickListener {
@@ -73,7 +75,7 @@ class SyncScrollHelper(mainActivity: MainActivity) {
         recyclerView.addOnScrollListener(object : OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 val scrollY = recyclerView.computeVerticalScrollOffset()
-                val minTranslationY = statusBarHeight + Utils.dp2px(activity, 9f)
+                val minTranslationY = statusBarHeight + activity.dp2px(9f)
                 val maxTranslationY = statusBarHeight + toolbarHeight
                 val targetTranslationY = maxTranslationY - scrollY * 0.7f
 
@@ -92,7 +94,7 @@ class SyncScrollHelper(mainActivity: MainActivity) {
                 }
 
                 // 3. 搜索框大小调整
-                val maxMarginRight = Utils.dp2px(activity, 92f)
+                val maxMarginRight = activity.dp2px(92f)
                 var progress = (1 - alpha) * 2f
                 if (progress > 1) {
                     progress = 1.0f

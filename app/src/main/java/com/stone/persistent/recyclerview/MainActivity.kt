@@ -6,8 +6,8 @@ import android.os.Message
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.stone.persistent.recyclerview.adapter.MainListAdapter
+import com.stone.persistent.recyclerview.extensions.immerseStatusBar
 import com.stone.persistent.recyclerview.helper.SyncScrollHelper
-import com.stone.persistent.recyclerview.utils.Utils
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // 1. 沉浸式状态栏
-        Utils.immerseStatusBar(this)
+        immerseStatusBar()
 
         // 2. 列表RecyclerView
         main_recycler_view.layoutManager = LinearLayoutManager(this)
