@@ -80,12 +80,14 @@ class ParentRecyclerView @JvmOverloads constructor(
         if (target is ChildRecyclerView) {
             // 下面这一坨代码的主要目的是计算consumeY
             var consumeY = dy
+            val childScrollY = target.computeVerticalScrollOffset()
             if (childPagerContainer!!.top > stickyHeight) {
-                if (childPagerContainer!!.top - dy < stickyHeight) {
+                if (childScrollY > 0 && dy < 0) {
+                    consumeY = 0
+                } else if (childPagerContainer!!.top - dy < stickyHeight) {
                     consumeY = childPagerContainer!!.top - stickyHeight
                 }
             } else if (childPagerContainer!!.top == stickyHeight) {
-                val childScrollY = target.computeVerticalScrollOffset()
                 consumeY = if (-dy < childScrollY) {
                     0
                 } else {
