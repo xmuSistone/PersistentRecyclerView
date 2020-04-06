@@ -2,44 +2,32 @@ package com.stone.persistent.recyclerview.helper
 
 import android.os.Handler
 import android.os.Looper
+import android.os.Message
 import androidx.viewpager2.widget.ViewPager2
 
-class CarouselHelper(viewPager2: ViewPager2) {
+class CarouselHelper(viewPager2: ViewPager2) : Handler(Looper.getMainLooper()) {
 
-    private var carouselThread: Thread? = null
-    private var handler: Handler = Handler(Looper.getMainLooper()) {
-        viewPager2.currentItem = viewPager2.currentItem + 1
-        true
+    private val viewPager2 = viewPager2
+
+    companion object {
+        private const val LOOP_INTERVAL = 3000L
     }
 
-    init {
-        viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageScrollStateChanged(state: Int) {
-            }
+    override fun handleMessage(msg: Message?) {
+        // 1. 切换到下一个item
+        val nextItem = viewPager2.currentItem + 1
+        viewPager2.currentItem = nextItem
 
-        })
-
-        viewPager2.setOnDragListener { _, _ -> true }
+        // 2. 开启下一次的轮播
+        this.sendEmptyMessageDelayed(1, LOOP_INTERVAL)
     }
 
     fun start() {
-        carouselThread?.interrupt()
-
-        carouselThread = Thread {
-            try {
-                while (true) {
-                    Thread.sleep(3000)
-                    handler.sendEmptyMessage(1)
-                }
-            } catch (e: Throwable) {
-
-            }
-        }
-        carouselThread!!.start()
+        this.removeCallbacksAndMessages(null)
+        this.sendEmptyMessageDelayed(1, LOOP_INTERVAL)
     }
 
     fun stop() {
-        carouselThread?.interrupt()
-        carouselThread = null
+        this.removeCallbacksAndMessages(null)
     }
 }
