@@ -1,6 +1,6 @@
 # PersistentRecyclerView
 
-仿京东首页，整体是个长列表(ParentRecyclerView)，底部的商品列表部分(ChildRecyclerView)可以左右滑动。
+仿京东首页，整体是个长列表(ParentRecyclerView)，内嵌子列表 - 商品feeds流(ChildRecyclerView)，且商品流可以左右滑动(ViewPager/ViewPager2)。
 
 ## 实现效果
 点击可查看[截屏视频](http://sistone.top/capture/video.html?content=PersistentRecyclerView)：
