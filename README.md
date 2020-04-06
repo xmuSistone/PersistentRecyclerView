@@ -10,20 +10,23 @@
 </a>
 
 ## 使用方法
-Adapter及ViewHolder跟官方Recyclerview一样，只是需要注意这2点：
+Adapter及ViewHolder跟官方Recyclerview一样：
+
 1. 外部的长列表使用ParentRecyclerView；
 2. 内嵌的子列表使用ChildRecyclerView；
 
-仅此两点，别无其他，ViewPager和ViewPager2均已内部兼容，可任意选用；
+仅此两点，别无其他，ViewPager和ViewPager2可随意选用，均已内部兼容；
 
 ## 实现方案
-通过<b>uiautomatorviewer</b>观察京东首页的View层级，会发现其长列表总体是个RecyclerView，设为ParentRecyclerView；而底部的商品部分是另一个Recyclerview，设为ChildRecyclerView。关键要解决这两个问题：
+通过<b>uiautomatorviewer</b>观察京东首页的View层级，会发现其长列表总体是个RecyclerView，设为ParentRecyclerView；而底部的商品feeds流是另一个Recyclerview，设为ChildRecyclerView。关键要解决这3个问题：
 
-<b>问题一</b>：ParentRecyclerView触底时，fling速率传递给ChildRecyclerView；<br/>
-<b>问题二</b>：ChildRecyclerView触顶时，fling速率传递给ParentRecyclerView；
+<b>问题一</b>：ParentRecyclerView触底时，获取商品流ViewPager中currentItem对应的ChildRecyclerView；<br/>
+<b>问题二</b>：ParentRecyclerView触底时，fling速率传递给ChildRecyclerView；<br/>
+<b>问题三</b>：ChildRecyclerView触顶时，fling速率传递给ParentRecyclerView；
 
-这两个问题，都需要获取RecyclerView的fling速率。在阅读RecyclerView的源码后，解决这个问题这并不难！<br/>
-至于上面的问题二，我们还可以让ParentRecyclerView实现NestedScrollingParent3，借力安卓官方的思路，实现我们内联滑动的小需求。
+关于后两个问题，都需要在滑动临界的衔接处获取RecyclerView的fling速率。在阅读RecyclerView的源码后，发现其内部的OverScroller保存了我们想要的一切，包括fling速率！<br/>
+与此同时，我们还可以让ParentRecyclerView实现NestedScrollingParent3，借力安卓官方的思路，让ChildRecyclerView自动将fling传递给Parent。<br/>
+而至于第一个问题，Child寻找Parent容易，而Parent寻找Child却不太简单。所以ChildRecyclerView不仅要上报自己，还要上报ViewPager，以方便ParentRecyclerView找到自己！
 
 当然细节代码较多，此处不再赘述，感兴趣的同学可自行Review代码即知。
 
