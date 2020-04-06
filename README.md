@@ -10,12 +10,10 @@
 </a>
 
 ## 使用方法
-Adapter及ViewHolder跟官方Recyclerview一样：
-
 1. 外部的长列表使用ParentRecyclerView；
 2. 内嵌的子列表使用ChildRecyclerView；
 
-仅此两点，别无其他，ViewPager和ViewPager2可随意选用，均已内部兼容；
+Adapter及ViewHolder跟官方Recyclerview一样，ViewPager和ViewPager2可随意选用，均已内部兼容；
 
 ## 实现方案
 通过<b>uiautomatorviewer</b>观察京东首页的View层级，会发现其长列表总体是个RecyclerView，设为ParentRecyclerView；而底部的商品feeds流是另一个Recyclerview，设为ChildRecyclerView。关键要解决这3个问题：
