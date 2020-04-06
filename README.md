@@ -22,8 +22,8 @@ Adapter及ViewHolder跟官方Recyclerview一样，ViewPager和ViewPager2可随�
 <b>问题二</b>：ParentRecyclerView触底时，fling速率传递给ChildRecyclerView；<br/>
 <b>问题三</b>：ChildRecyclerView触顶时，fling速率传递给ParentRecyclerView；
 
-关于后两个问题，都需要在滑动临界的衔接处获取RecyclerView的fling速率。在阅读RecyclerView的源码后，发现其内部的OverScroller保存了我们想要的一切，包括fling速率！<br/>
-与此同时，我们还可以让ParentRecyclerView实现NestedScrollingParent3，借力安卓官方的思路，让ChildRecyclerView自动将fling传递给Parent。<br/>
+关于后两个问题，都需要在滑动临界的衔接处获取RecyclerView的fling速率。在阅读RecyclerView的源码后，发现其内部的OverScroller保存了我们想要的一切，包括fling速率！<br/><br/>
+与此同时，我们还可以让ParentRecyclerView实现NestedScrollingParent3，借力安卓官方的思路，让ChildRecyclerView自动将fling传递给Parent。<br/><br/>
 而至于第一个问题，Child寻找Parent容易，而Parent寻找Child却不太简单。所以ChildRecyclerView不仅要上报自己，还要上报ViewPager，以方便ParentRecyclerView找到自己！
 
 当然细节代码较多，此处不再赘述，感兴趣的同学可自行Review代码即知。
