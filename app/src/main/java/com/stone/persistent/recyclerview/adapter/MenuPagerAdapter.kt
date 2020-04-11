@@ -9,7 +9,9 @@ class MenuPagerAdapter(fragmentActivity: FragmentActivity) :
     FragmentStateAdapter(fragmentActivity) {
 
     override fun createFragment(position: Int): Fragment {
-        return MenuGridFragment(position)
+        val menuGridFragment = MenuGridFragment()
+        menuGridFragment.page = position
+        return menuGridFragment
     }
 
     override fun getItemCount(): Int {

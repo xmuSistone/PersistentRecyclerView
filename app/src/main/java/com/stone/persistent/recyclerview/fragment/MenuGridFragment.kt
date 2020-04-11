@@ -8,9 +8,9 @@ import com.stone.persistent.recyclerview.R
 import com.stone.persistent.recyclerview.adapter.MenuGridAdapter
 import kotlinx.android.synthetic.main.fragment_menu_grid.*
 
-class MenuGridFragment(page: Int) : Fragment(R.layout.fragment_menu_grid) {
+class MenuGridFragment : Fragment(R.layout.fragment_menu_grid) {
 
-    private var page = page
+    var page : Int = 0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -8,21 +8,11 @@ import com.stone.persistent.recyclerview.fragment.FeedsFragment
 class FeedsPagerAdapter(fragmentActivity: FragmentActivity) :
     FragmentStateAdapter(fragmentActivity) {
 
-    private val fragmentList = ArrayList<FeedsFragment>()
-
-    init {
-        fragmentList.add(FeedsFragment())
-        fragmentList.add(FeedsFragment())
-        fragmentList.add(FeedsFragment())
-        fragmentList.add(FeedsFragment())
-        fragmentList.add(FeedsFragment())
-    }
-
     override fun createFragment(position: Int): Fragment {
-        return fragmentList[position]
+        return FeedsFragment()
     }
 
     override fun getItemCount(): Int {
-        return fragmentList.size
+        return 5
     }
 }
