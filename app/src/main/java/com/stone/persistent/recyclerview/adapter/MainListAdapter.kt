@@ -16,7 +16,7 @@ class MainListAdapter(context: AppCompatActivity) :
 
     private var tabsLoaded = false
 
-    private var actionListener: IActionListener? = null
+    private var loadingTabsListener: (() -> Unit)? = null
 
     companion object {
         // 轮播图
@@ -115,16 +115,15 @@ class MainListAdapter(context: AppCompatActivity) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is LoadingViewHolder) {
             // 加载tabs
-            this.actionListener?.onLoadingTabs()
+            loadingTabsListener?.invoke()
         } else if (holder is CarouselViewHolder) {
             holder.invalidate()
         }
     }
 
-    fun setActionListener(actionListener: IActionListener) {
-        this.actionListener = actionListener
+    fun setLoadingTabsListener(listener: () -> Unit) {
+        this.loadingTabsListener = listener
     }
-
 
     /**
      * tabs加载完成
@@ -132,10 +131,5 @@ class MainListAdapter(context: AppCompatActivity) :
     fun onTabsLoaded() {
         this.tabsLoaded = true
         this.notifyItemChanged(7)
-    }
-
-
-    interface IActionListener {
-        fun onLoadingTabs()
     }
 }
