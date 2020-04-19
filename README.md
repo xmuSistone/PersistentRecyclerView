@@ -109,7 +109,21 @@ private fun findCurrentChildRecyclerView(): ChildRecyclerView? {
 
 当然不是！
 
-上述的种种，仅仅处理了Fling传导的情形，我们还需要让ParentRecyclerView实现NestedScrollingParent3，借力安卓官方的思路，实现内联滑动。详细代码略，此处不再赘述了。
+上述的种种，仅仅处理了Fling传导的情形，我们还需要让ParentRecyclerView实现NestedScrollingParent3，借力安卓官方的思路，实现内联滑动:
+
+```kotlin
+/**
+ * ParentRecyclerView消费多少dy？
+ **/
+override fun onNestedPreScroll(target: View, dx: Int, dy: Int, consumed: IntArray, type: Int) {
+    if (target is ChildRecyclerView) {
+        // 根据当前滑动位置及状态，判断自己需要消费多少dy
+        // 详细代码略
+    }
+}
+```
+
+RecyclerView嵌套子列表，原理大体如此，内部做了很友好的封装，**调用侧的约束特别少**！当然，代码中还有一些其它的巧妙设定，比如stickyHeight、childPagerContainer等，限于篇幅问题，此处就不再赘述了！
 
 ## 另一种方案
 对于长列表内嵌ViewPager以及ChildRecyclerView，官方控件中最接近这种效果的是CoordinatorLayout。所以，CoordinatorLayout改造之后，也能实现这样的效果，感兴趣的同学可去瞅瞅：[传送门](https://github.com/xmuSistone/PersistentCoordinatorLayout)
