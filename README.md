@@ -21,8 +21,9 @@ Adapter及ViewHolder跟官方Recyclerview一样，ViewPager和ViewPager2可随�
 <b>问题一</b>：ParentRecyclerView触底时，Fling速率传递给ChildRecyclerView；<br/>
 <b>问题二</b>：ChildRecyclerView触顶时，Fling速率传递给ParentRecyclerView；
 
-这两个问题，都需要在滑动衔接处获取当前RecyclerView的Fling速率，并传递给另一个RecyclerView。在阅读RecyclerView的源码后，发现其内部保存了一个mViewFlinger对象，而mViewFlinger内部持有OverScroller。于是，获取当前RecyclerView的Fling速率便迎刃而解: <br/><br/>
+这两个问题，都避不开一个问题，即：<b>如何获取当前RecyclerView的Fling速率？</b>
 
+在阅读RecyclerView源码后，发现RecyclerView内部保存了一个mViewFlinger对象，而mViewFlinger内部持有OverScroller。于是，获取当前RecyclerView的Fling速率就有思路了: <br/><br/>
 ```kotlin
 private val overScroller: OverScroller
 
@@ -44,6 +45,28 @@ init {
 fun getVelocityY(): Int = (overScroller.currVelocity).toInt()
 
 ```
+
+Fling速率由一个RecyclerView传递到另一个RecyclerView，实现起来就比较easy了！RecyclerView有一个fling方法，直接调用即可：
+```kotlin
+/**
+ * Begin a standard fling with an initial velocity along each axis in pixels per second.
+ * If the velocity given is below the system-defined minimum this method will return false
+ * and no fling will occur.
+ *
+ * @param velocityX Initial horizontal velocity in pixels per second
+ * @param velocityY Initial vertical velocity in pixels per second
+ * @return true if the fling was started, false if the velocity was too low to fling or
+ * LayoutManager does not support scrolling in the axis fling is issued.
+ */
+public boolean fling(int velocityX, int velocityY)
+```
+
+
+至于上面的<b>问题一</b>(Fling速率由Parent传递给Child)，还需要解决一个问题：<b>ParentRecyclerView如何找到ViewPager中currentItem对应的ChildRecyclerView？</b>
+
+这个问题确实有点南！ChildRecyclerView可以通过getParent()找到ParentRecyclerView，但是ParentRecyclerView如何找到ChildRecyclerView呢?现在摆在我们面前的是，Parent和Child之间至少还隔了一个ViewPager(或者ViewPager2)！如果布局复杂一些，那么可能还隔着很多层其它的ViewGroup！
+
+
 
 与此同时，我们还可以让ParentRecyclerView实现NestedScrollingParent3，借力安卓官方的思路，让ChildRecyclerView自动将fling传递给Parent。<br/><br/>
 而至于第一个问题，Child寻找Parent容易，而Parent寻找Child却不太简单。所以ChildRecyclerView不仅要上报自己，还要上报ViewPager，以方便ParentRecyclerView找到自己！
