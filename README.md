@@ -72,7 +72,7 @@ ChildRecyclerView可以通过getParent()找到ParentRecyclerView，但是ParentR
 
 我们都知道，ParentRecyclerView、ViewPager/ViewPager2、ChildRecyclerView三者的关系是1:1:N，于是可以想到这两点：
 
-* ParentRecyclerView和ViewPager/ViewPager2的关系是1：1，ParentRecyclerView寻找ChildRecyclerView是不是可以通过ViewPager来代理？
+* ParentRecyclerView寻找ChildRecyclerView是不是可以通过ViewPager来代理？
 * ViewPager/ViewPager2如何找到当前currentItem对应的子View？子View如何找到下面的ChildRecyclerView？
 
 于是乎，ParentRecyclerView寻找ChildRecyclerView的方案就来了：
