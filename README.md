@@ -18,12 +18,12 @@ Adapter及ViewHolder跟官方Recyclerview一样，ViewPager和ViewPager2可随�
 ## 实现方案
 通过**uiautomatorviewer**观察京东首页的View层级，会发现其长列表总体是个RecyclerView，设为ParentRecyclerView；而底部的商品feeds流是另一个Recyclerview，设为ChildRecyclerView。关键要解决这2个问题：
 
-**问题一**：ParentRecyclerView触底时，Fling速率传递给ChildRecyclerView；
+**问题一**：ParentRecyclerView触底时，Fling速率传递给ChildRecyclerView；<br/>
 **问题二**：ChildRecyclerView触顶时，Fling速率传递给ParentRecyclerView；
 
 这两个问题，都避不开一个问题，即：**如何获取当前RecyclerView的Fling速率？**
 
-在阅读RecyclerView源码后，发现RecyclerView内部保存了一个mViewFlinger对象，而mViewFlinger内部持有OverScroller。于是，获取当前RecyclerView的Fling速率便迎刃而解！是的，用反射: 
+在阅读RecyclerView源码后，发现RecyclerView内部保存了一个mViewFlinger对象，而mViewFlinger内部持有OverScroller。于是，获取当前RecyclerView的Fling速率便迎刃而解: 
 
 ```kotlin
 private val overScroller: OverScroller
@@ -62,13 +62,17 @@ fun getVelocityY(): Int = (overScroller.currVelocity).toInt()
 public boolean fling(int velocityX, int velocityY)
 ```
 
-看起来好简单，难道就这么结束了？
+看起来好简单，就这么结束了？
 
 当然不是！
 
-**问题一**(Fling速率由Parent传递给Child)还需要解决一个问题：<b>ParentRecyclerView如何找到ViewPager中currentItem对应的ChildRecyclerView？</b>
+**问题一**(Fling速率由Parent传递给Child)还要解决另一个问题：**ParentRecyclerView如何找到ViewPager中currentItem对应的ChildRecyclerView？**
 
-这个问题确实有点南！ChildRecyclerView可以通过getParent()找到ParentRecyclerView，但是ParentRecyclerView如何找到ChildRecyclerView呢?现在摆在我们面前的是，Parent和Child之间至少还隔了一个ViewPager(或者ViewPager2)！如果布局复杂一些，那么可能还隔着很多层其它的ViewGroup！
+我们都知道，ParentRecyclerView、ViewPager/ViewPager2、ChildRecyclerView三者的关系是1:1:N。ChildRecyclerView可以通过getParent()找到ParentRecyclerView，但是ParentRecyclerView如何找到ChildRecyclerView呢？现在摆在我们面前的是，Parent和Child之间至少还隔了一个ViewPager(或者ViewPager2)！如果布局再复杂一些，他们中间可能还隔着若干其它的ViewGroup！
+
+这回涉及到另一个问题：**ViewPager/ViewPager2如何找到当前currentItem对应的子View？**
+
+如果ViewPager/ViewPager2能够找到当前的子View，则ChildRecyclerView是不是可以将自己保存到这个子View里？
 
 
 
