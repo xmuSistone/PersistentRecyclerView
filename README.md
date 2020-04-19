@@ -15,7 +15,7 @@
 
 Adapter及ViewHolder跟官方Recyclerview一样，ViewPager和ViewPager2可随意选用，均已内部兼容；
 
-## 实现方案
+## 实现原理
 通过**uiautomatorviewer**观察京东首页的View层级，会发现其长列表总体是个RecyclerView，设为**ParentRecyclerView**；而底部的商品feeds流是另一个Recyclerview，设为**ChildRecyclerView**。关键要解决这2个问题：
 
 **问题一**：ParentRecyclerView触底时，Fling速率传递给ChildRecyclerView；<br/>
