@@ -6,7 +6,7 @@
 点击可查看[截屏视频](http://sistone.top/capture/video.html?content=PersistentRecyclerView)：
 
 <a href="http://sistone.top/capture/video.html?content=PersistentRecyclerView">
-    <img src="https://stone225.oss-cn-hangzhou.aliyuncs.com/jingdong.jpg" width="460"/>
+    <img src="capturedImage.jpg" width="460"/>
 </a>
 
 ## 使用方法
