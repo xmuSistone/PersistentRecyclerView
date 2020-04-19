@@ -44,18 +44,17 @@ class MainListAdapter(context: AppCompatActivity) :
         private const val VIEW_TYPE_LOADING_TABS = 7
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return when (position) {
-            0 -> VIEW_TYPE_CAROUSEL
-            1 -> VIEW_TYPE_MENU
-            2 -> VIEW_TYPE_SEC_KILL_PREFIX
-            3 -> VIEW_TYPE_SEC_KILL_CONTENT
-            4 -> VIEW_TYPE_TODAY_RECOMMEND
-            5 -> VIEW_TYPE_NEW_YEAR_STREET
-            6 -> if (tabsLoaded) VIEW_TYPE_FEEDS else VIEW_TYPE_LOADING_TABS
-            else -> -1
-        }
+    override fun getItemViewType(position: Int): Int = when (position) {
+        0 -> VIEW_TYPE_CAROUSEL
+        1 -> VIEW_TYPE_MENU
+        2 -> VIEW_TYPE_SEC_KILL_PREFIX
+        3 -> VIEW_TYPE_SEC_KILL_CONTENT
+        4 -> VIEW_TYPE_TODAY_RECOMMEND
+        5 -> VIEW_TYPE_NEW_YEAR_STREET
+        6 -> if (tabsLoaded) VIEW_TYPE_FEEDS else VIEW_TYPE_LOADING_TABS
+        else -> -1
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -108,9 +107,7 @@ class MainListAdapter(context: AppCompatActivity) :
         }
     }
 
-    override fun getItemCount(): Int {
-        return 7
-    }
+    override fun getItemCount(): Int = 7
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is LoadingViewHolder) {

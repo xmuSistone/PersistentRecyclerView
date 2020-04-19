@@ -25,9 +25,7 @@ class FeedsListAdapter(context: FragmentActivity) :
         return GoodsViewHolder(itemView = itemView)
     }
 
-    override fun getItemCount(): Int {
-        return dataList.size
-    }
+    override fun getItemCount(): Int = dataList.size
 
     override fun onBindViewHolder(holder: GoodsViewHolder, position: Int) {
         holder.bindPosition(position)

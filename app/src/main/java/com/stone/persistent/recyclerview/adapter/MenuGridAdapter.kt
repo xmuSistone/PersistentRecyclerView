@@ -85,9 +85,7 @@ class MenuGridAdapter(context: Context, page: Int) : Adapter<MenuGridAdapter.Men
         holder.itemView.item_menu_title.setText(MENU_TITLES[position])
     }
 
-    override fun getItemCount(): Int {
-        return MENU_TITLES.size
-    }
+    override fun getItemCount(): Int = MENU_TITLES.size
 
     inner class MenuViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {}
 }

@@ -29,9 +29,7 @@ class CarouselAdapter(context: Context) : Adapter<CarouselAdapter.CarouselViewHo
         holder.itemView.carousel_img.setImageResource(imgRes)
     }
 
-    override fun getItemCount(): Int {
-        return Int.MAX_VALUE
-    }
+    override fun getItemCount(): Int = Int.MAX_VALUE
 
     inner class CarouselViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {}
 }
