@@ -25,6 +25,10 @@ class ParentRecyclerView @JvmOverloads constructor(
 
     private var doNotInterceptTouchEvent: Boolean = false
 
+    private var stickyListener: ((isAtTop: Boolean) -> Unit)? = null
+
+    private var innerIsStickyTop = false
+
     /**
      * 顶部悬停的高度
      */
@@ -234,6 +238,27 @@ class ParentRecyclerView @JvmOverloads constructor(
                 layoutParams.height = newHeight
                 childPagerContainer!!.layoutParams = layoutParams
             }
+        }
+    }
+
+    /**
+     * 吸顶回调
+     */
+    fun setStickyListener(stickyListener: (isAtTop: Boolean) -> Unit) {
+        this.stickyListener = stickyListener
+    }
+
+    override fun onScrollChanged(l: Int, t: Int, oldl: Int, oldt: Int) {
+        super.onScrollChanged(l, t, oldl, oldt)
+
+        var currentStickyTop = false
+        if (childPagerContainer != null && childPagerContainer?.top == stickyHeight) {
+            currentStickyTop = true
+        }
+
+        if (currentStickyTop != innerIsStickyTop) {
+            innerIsStickyTop = currentStickyTop
+            stickyListener?.invoke(innerIsStickyTop)
         }
     }
 }

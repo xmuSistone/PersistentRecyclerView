@@ -31,7 +31,6 @@ class SyncScrollHelper(mainActivity: MainActivity) {
     private val backIv2 = mainActivity.main_back_img2
     private val logoImageView = mainActivity.main_top_logo
 
-    private val floatVisibleThreshold = mainActivity.dp2px(500f)
     private val floatAdLayout = mainActivity.home_float_layout
     private var floatAdClosed = false
 
@@ -72,6 +71,7 @@ class SyncScrollHelper(mainActivity: MainActivity) {
      * RecyclerView滑动时，动态更新logoImageView和searchBar
      */
     fun syncRecyclerViewScroll(recyclerView: ParentRecyclerView) {
+        // 1. Scroll滑动时顶部联动处理
         recyclerView.addOnScrollListener(object : OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 val scrollY = recyclerView.computeVerticalScrollOffset()
@@ -102,20 +102,22 @@ class SyncScrollHelper(mainActivity: MainActivity) {
                 val layoutParams = searchBarLayout.layoutParams as ConstraintLayout.LayoutParams
                 layoutParams.setMargins(0, 0, (maxMarginRight * progress).toInt(), 0)
                 searchBarLayout.layoutParams = layoutParams
-
-                // 4. 广告悬浮位
-                if (!floatAdClosed) {
-                    floatAdLayout.visibility = when {
-                        scrollY > floatVisibleThreshold -> View.VISIBLE
-                        else -> View.GONE
-                    }
-                }
             }
         })
+
+        // 2. 广告悬浮位（吸顶）
+        recyclerView.setStickyListener {
+            if (!floatAdClosed) {
+                floatAdLayout.visibility = when {
+                    it -> View.VISIBLE
+                    else -> View.GONE
+                }
+            }
+        }
     }
 
     /**
-     *
+     * 已经置顶时，列表继续下拉的处理
      */
     fun syncRefreshPullDown(refreshLayout: SmartRefreshLayout) {
         val purposeListener = object : SimpleMultiPurposeListener() {

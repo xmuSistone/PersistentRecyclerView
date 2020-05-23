@@ -12,7 +12,7 @@ open class NetManager {
          */
         fun getProductList(): ArrayList<ProductItemModel> {
             val dataList = ArrayList<ProductItemModel>()
-            for (i in 1..10) {
+            repeat(10) {
                 dataList.add(
                     ProductItemModel(
                         "单筒手机拍照望远镜 高倍高清微光夜视成人非红外演唱会望眼镜 升级版 送手机夹 三脚架",
