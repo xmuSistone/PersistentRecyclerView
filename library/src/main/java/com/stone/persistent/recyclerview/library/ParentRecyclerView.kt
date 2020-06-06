@@ -6,6 +6,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.NestedScrollingParent3
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
@@ -62,7 +63,10 @@ class ParentRecyclerView @JvmOverloads constructor(
      * 是否禁止拦截TouchEvent事件
      */
     private fun doNotInterceptTouch(rawY: Float, childRecyclerView: ChildRecyclerView?): Boolean {
-        if (null != childRecyclerView && childPagerContainer != null) {
+        if (null != childRecyclerView &&
+            null != childPagerContainer &&
+            ViewCompat.isAttachedToWindow(childPagerContainer!!)
+        ) {
             val coorValue = IntArray(2)
             childRecyclerView.getLocationOnScreen(coorValue)
 
@@ -118,7 +122,7 @@ class ParentRecyclerView @JvmOverloads constructor(
     }
 
     override fun onStartNestedScroll(child: View, target: View, axes: Int, type: Int): Boolean {
-        return true
+        return target is ChildRecyclerView
     }
 
     override fun onNestedScroll(
