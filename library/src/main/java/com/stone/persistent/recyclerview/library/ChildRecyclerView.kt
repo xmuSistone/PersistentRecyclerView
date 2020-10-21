@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewConfiguration
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
+import kotlin.math.abs
 
 /**
  * 内层的RecyclerView
@@ -62,19 +63,24 @@ class ChildRecyclerView @JvmOverloads constructor(
      * 这段逻辑主要是RecyclerView最底部，垂直上拉后居然还能左右滑动，不能忍
      */
     override fun onTouchEvent(ev: MotionEvent): Boolean {
-        if (ev.action == MotionEvent.ACTION_MOVE) {
+        if (ev.action == MotionEvent.ACTION_DOWN) {
+            // 一上来就禁止ParentRecyclerView拦截Touch事件
+            parent.requestDisallowInterceptTouchEvent(true)
+        } else if (ev.action == MotionEvent.ACTION_MOVE) {
             // ACTION_MOVE 判定垂直还是水平滑动
             if (dragState == DRAG_IDLE) {
-                val xDistance = Math.abs(ev.rawX - downX)
-                val yDistance = Math.abs(ev.rawY - downY)
+                val xDistance = abs(ev.rawX - downX)
+                val yDistance = abs(ev.rawY - downY)
 
                 if (xDistance > yDistance && xDistance > mTouchSlop) {
                     // 水平滑动
                     dragState = DRAG_HORIZONTAL
+
+                    // touch事件允许 ViewPager / ViewPager2 处理
+                    parent.requestDisallowInterceptTouchEvent(false)
                 } else if (yDistance > xDistance && yDistance > mTouchSlop) {
                     // 垂直滑动
                     dragState = DRAG_VERTICAL
-                    parent.requestDisallowInterceptTouchEvent(true)
                 }
             }
         }
