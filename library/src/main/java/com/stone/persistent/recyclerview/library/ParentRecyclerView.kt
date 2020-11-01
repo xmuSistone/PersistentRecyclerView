@@ -38,6 +38,9 @@ class ParentRecyclerView @JvmOverloads constructor(
     init {
         this.overScrollMode = View.OVER_SCROLL_NEVER
         this.descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
+        this.viewTreeObserver.addOnGlobalLayoutListener {
+            this.adjustChildPagerContainerHeight()
+        }
     }
 
     override fun onInterceptTouchEvent(e: MotionEvent?): Boolean {
@@ -235,12 +238,16 @@ class ParentRecyclerView @JvmOverloads constructor(
      * 调整Child容器的高度
      */
     private fun adjustChildPagerContainerHeight() {
-        if (null != childPagerContainer) {
+        if (null != childPagerContainer && ViewCompat.isAttachedToWindow(childPagerContainer!!)) {
             val layoutParams = childPagerContainer!!.layoutParams
             val newHeight = this.height - stickyHeight
             if (newHeight != layoutParams.height) {
                 layoutParams.height = newHeight
                 childPagerContainer!!.layoutParams = layoutParams
+            }
+
+            if (innerIsStickyTop && childPagerContainer!!.top > 0) {
+                this.scrollBy(0, childPagerContainer!!.top)
             }
         }
     }
