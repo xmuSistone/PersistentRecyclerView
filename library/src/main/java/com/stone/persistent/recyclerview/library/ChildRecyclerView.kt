@@ -55,6 +55,9 @@ class ChildRecyclerView @JvmOverloads constructor(
             downX = ev.rawX
             downY = ev.rawY
             this.stopFling()
+
+            // 一上来就禁止ParentRecyclerView拦截Touch事件
+            parent.requestDisallowInterceptTouchEvent(true)
         }
         return super.onInterceptTouchEvent(ev)
     }
@@ -63,10 +66,7 @@ class ChildRecyclerView @JvmOverloads constructor(
      * 这段逻辑主要是RecyclerView最底部，垂直上拉后居然还能左右滑动，不能忍
      */
     override fun onTouchEvent(ev: MotionEvent): Boolean {
-        if (ev.action == MotionEvent.ACTION_DOWN) {
-            // 一上来就禁止ParentRecyclerView拦截Touch事件
-            parent.requestDisallowInterceptTouchEvent(true)
-        } else if (ev.action == MotionEvent.ACTION_MOVE) {
+        if (ev.action == MotionEvent.ACTION_MOVE) {
             // ACTION_MOVE 判定垂直还是水平滑动
             if (dragState == DRAG_IDLE) {
                 val xDistance = abs(ev.rawX - downX)
