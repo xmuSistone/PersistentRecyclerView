@@ -58,6 +58,12 @@ class ChildRecyclerView @JvmOverloads constructor(
 
             // 一上来就禁止ParentRecyclerView拦截Touch事件
             parent.requestDisallowInterceptTouchEvent(true)
+        } else if (ev.action == MotionEvent.ACTION_MOVE) {
+            this.formDragState(ev)
+            if (dragState == DRAG_VERTICAL) {
+                // 水平滑动，直接拦截
+                return true
+            }
         }
         return super.onInterceptTouchEvent(ev)
     }
@@ -67,25 +73,32 @@ class ChildRecyclerView @JvmOverloads constructor(
      */
     override fun onTouchEvent(ev: MotionEvent): Boolean {
         if (ev.action == MotionEvent.ACTION_MOVE) {
-            // ACTION_MOVE 判定垂直还是水平滑动
-            if (dragState == DRAG_IDLE) {
-                val xDistance = abs(ev.rawX - downX)
-                val yDistance = abs(ev.rawY - downY)
-
-                if (xDistance > yDistance && xDistance > mTouchSlop) {
-                    // 水平滑动
-                    dragState = DRAG_HORIZONTAL
-
-                    // touch事件允许 ViewPager / ViewPager2 处理
-                    parent.requestDisallowInterceptTouchEvent(false)
-                } else if (yDistance > xDistance && yDistance > mTouchSlop) {
-                    // 垂直滑动
-                    dragState = DRAG_VERTICAL
-                }
-            }
+            this.formDragState(ev)
         }
         return super.onTouchEvent(ev)
     }
+
+    /**
+     * 定性dragState
+     */
+    private fun formDragState(ev: MotionEvent){
+        if (dragState == DRAG_IDLE) {
+            val xDistance = abs(ev.rawX - downX)
+            val yDistance = abs(ev.rawY - downY)
+
+            if (xDistance > yDistance && xDistance > mTouchSlop) {
+                // 水平滑动
+                dragState = DRAG_HORIZONTAL
+
+                // touch事件允许 ViewPager / ViewPager2 处理
+                parent.requestDisallowInterceptTouchEvent(false)
+            } else if (yDistance > xDistance && yDistance > mTouchSlop) {
+                // 垂直滑动
+                dragState = DRAG_VERTICAL
+            }
+        }
+    }
+
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
