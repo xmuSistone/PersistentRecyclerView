@@ -21,8 +21,8 @@ class SyncScrollHelper(mainActivity: MainActivity) {
 
     private val statusBarHeight = mainActivity.getStatusBarHeight()
     private val toolbarHeight = mainActivity.dp2px(50f)
-    private var screenHeight = mainActivity.getScreenWidth()
-    private var searchBarHeight = mainActivity.dp2px(46f)
+    private val screenHeight = mainActivity.getScreenWidth()
+    private val searchBarHeight = mainActivity.dp2px(46f)
 
     private val activity = mainActivity
     private val toolBarLayout = mainActivity.main_toolbar

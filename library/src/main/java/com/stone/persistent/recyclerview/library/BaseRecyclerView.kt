@@ -43,7 +43,7 @@ open class BaseRecyclerView @JvmOverloads constructor(
     /**
      * 获取垂直方向的速率
      */
-    fun getVelocityY(): Int = (velocityYField.get(scrollerYObj) as Float).toInt()
+    fun getVelocityY(): Int = (overScroller.currVelocity).toInt()
 
     /**
      * 停止滑动fling

@@ -35,17 +35,14 @@ class ChildRecyclerView @JvmOverloads constructor(
         mTouchSlop = configuration.scaledTouchSlop
     }
 
-    override fun onScrollStateChanged(state: Int) {
-        super.onScrollStateChanged(state)
+    /**
+     * 当整个childRecyclerView被detach之后，及时上报parentRecyclerView
+     */
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
 
-        // 是否已经停止scrolling
-        if (state == SCROLL_STATE_IDLE) {
-            // 这里是考虑到当整个childRecyclerView被detach之后，及时上报parentRecyclerView
-            val velocityY = getVelocityY()
-            if (velocityY < 0 && computeVerticalScrollOffset() == 0) {
-                parentRecyclerView?.fling(0, velocityY)
-            }
-        }
+        val velocityY = getVelocityY()
+        parentRecyclerView?.fling(0, -velocityY)
     }
 
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
